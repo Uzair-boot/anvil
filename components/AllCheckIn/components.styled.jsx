@@ -29,4 +29,7 @@ export const StyledCell = styled(Typography)`
   background: aqua;
 `;
 
-
+export const StyledTableCell = styled(TableCell)`
+font-size: 17px;
+font-weight: 700;
+`;

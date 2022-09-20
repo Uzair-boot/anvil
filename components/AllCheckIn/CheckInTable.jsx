@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Image from 'next/image';
 import {
   Table,
   TableBody,
@@ -7,12 +8,11 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
   Box,
   Drawer,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { StyledCell } from './components.styled';
+import { StyledCell, StyledTypography } from './components.styled';
 
 function createData(checkInName, name, status, date) {
   return { checkInName, name, status, date };
@@ -37,18 +37,22 @@ export default function CheckInTable() {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 400 }}
       role='presentation'
-      //   onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <CloseIcon onClick={toggleDrawer(anchor, false)} />
+      <Box textAlign='center'>
+        <StyledTypography> Checkin Name</StyledTypography>
+        <img
+          src='https://www.interactivebrokers.hu/images/web/cryptocurrency-hero.jpg'
+          width={200}
+          height={200}
+        />
+      </Box>
     </Box>
   );
 
-  function trigger(anchor) {
-    toggleDrawer(anchor, true);
-  }
   return (
     <>
       <TableContainer component={Paper}>
@@ -65,10 +69,7 @@ export default function CheckInTable() {
           <TableBody>
             {rows.map((row) => (
               <TableRow
-                onClick={(right) => {
-                  toggleDrawer(right, true);
-                  console.log('jjkhjk');
-                }}
+                onClick={toggleDrawer('right', true)}
                 key={row.name}
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
@@ -80,7 +81,6 @@ export default function CheckInTable() {
                 </TableCell>
                 <TableCell align='center'>{row.name}</TableCell>
                 <TableCell align='center'>
-                  {' '}
                   <StyledCell> {row.status}</StyledCell>
                 </TableCell>
                 <TableCell align='center'>{row.date}</TableCell>
@@ -91,16 +91,14 @@ export default function CheckInTable() {
       </TableContainer>
 
       <div>
-        {['left', 'right', 'top', 'bottom'].map((anchor) => (
-          <React.Fragment key={anchor}>
-            {console.log(anchor, 'this is acnchor')}
-            <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+        {['right'].map((item) => (
+          <React.Fragment key={item}>
             <Drawer
-              anchor={anchor}
-              open={state[anchor]}
-              onClose={toggleDrawer(anchor, false)}
+              anchor={item}
+              open={state[item]}
+              onClose={toggleDrawer(item, false)}
             >
-              {list(anchor)}
+              {list(item)}
             </Drawer>
           </React.Fragment>
         ))}

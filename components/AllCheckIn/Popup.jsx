@@ -1,12 +1,15 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import { Box, Divider, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  TextField,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import CreateButton from './components.styled';
 
 export default function Popup({ value, setValue }) {
   const handleClose = () => {
@@ -19,7 +22,7 @@ export default function Popup({ value, setValue }) {
           '& .MuiDialog-container': {
             '& .MuiPaper-root': {
               width: '100%',
-              maxWidth: '500px', // Set your width here
+              maxWidth: '500px',
             },
           },
         }}
@@ -66,7 +69,13 @@ export default function Popup({ value, setValue }) {
           <Button onClick={handleClose} autoFocus>
             cancel
           </Button>
-          <Button variant='contained' onClick={() => deleteRow(value.id)}>
+          <Button
+            sx={{
+              background: '#000000',
+            }}
+            variant='contained'
+            onClick={() => deleteRow(value.id)}
+          >
             Create CheckIn
           </Button>
         </DialogActions>

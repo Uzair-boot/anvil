@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Table,
   TableBody,
@@ -10,16 +10,16 @@ import {
   Button,
   Box,
   Drawer,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { StyledCell } from "./components.styled";
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { StyledCell } from './components.styled';
 
 function createData(checkInName, name, status, date) {
   return { checkInName, name, status, date };
 }
 
 const rows = [
-  createData("CheckIn Name", "Some Name", "CHECKED_IN", "Some Date"),
+  createData('CheckIn Name', 'Some Name', 'CHECKED_IN', 'Some Date'),
 ];
 
 export default function CheckInTable() {
@@ -27,8 +27,8 @@ export default function CheckInTable() {
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
     ) {
       return;
     }
@@ -37,8 +37,8 @@ export default function CheckInTable() {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-      role="presentation"
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      role='presentation'
       //   onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
@@ -47,7 +47,7 @@ export default function CheckInTable() {
   );
 
   function trigger(anchor) {
-    toggleDrawer(anchor, true)
+    toggleDrawer(anchor, true);
   }
   return (
     <>
@@ -55,36 +55,35 @@ export default function CheckInTable() {
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Title</TableCell>
-              <TableCell align="center">Owner</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="center">Created at</TableCell>
+              <TableCell align='center'>Title</TableCell>
+              <TableCell align='center'>Owner</TableCell>
+              <TableCell align='center'>Status</TableCell>
+              <TableCell align='center'>Created at</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
             {rows.map((row) => (
               <TableRow
-                onClick={(right)=>{toggleDrawer(right, true)
-                    console.log("jjkhjk")
-                }
-            
-            }
+                onClick={(right) => {
+                  toggleDrawer(right, true);
+                  console.log('jjkhjk');
+                }}
                 key={row.name}
                 sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  cursor: "pointer",
+                  '&:last-child td, &:last-child th': { border: 0 },
+                  cursor: 'pointer',
                 }}
               >
-                <TableCell component="th" scope="row" align="center">
+                <TableCell component='th' scope='row' align='center'>
                   {row.checkInName}
                 </TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">
-                  {" "}
+                <TableCell align='center'>{row.name}</TableCell>
+                <TableCell align='center'>
+                  {' '}
                   <StyledCell> {row.status}</StyledCell>
                 </TableCell>
-                <TableCell align="center">{row.date}</TableCell>
+                <TableCell align='center'>{row.date}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -92,9 +91,9 @@ export default function CheckInTable() {
       </TableContainer>
 
       <div>
-        {["left", "right", "top", "bottom"].map((anchor) => (
+        {['left', 'right', 'top', 'bottom'].map((anchor) => (
           <React.Fragment key={anchor}>
-            {console.log(anchor, "this is acnchor")}
+            {console.log(anchor, 'this is acnchor')}
             <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
             <Drawer
               anchor={anchor}

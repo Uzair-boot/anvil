@@ -22,13 +22,14 @@ import {
 
 const GET_CHARACTERS = gql`
   {
-    check_in_by_pk(id: 10) {
-      comment
-      created_at
-      id
-      image_url
-      name
-    }
+    check_in (order_by: {id: desc}) {
+        comment
+        created_at
+        id
+        image_url
+        name
+      }
+      
   }
 `;
 export default function CheckInTable() {
@@ -41,8 +42,10 @@ export default function CheckInTable() {
   const { data, loading, error } = useQuery(GET_CHARACTERS);
 
   React.useEffect(() => {
-    setGqlData(data?.check_in_by_pk);
+    setGqlData(data?.check_in);
   }, [data]);
+
+ 
 
   if (error) {
     return <Typography>Some error occured</Typography>;
@@ -50,28 +53,12 @@ export default function CheckInTable() {
     return <Typography>Loading....</Typography>;
   }
 
-  const rows = [
-    {
-      comment: 'Long comment that may overspill over two lines ',
-      id: 5,
-      created_at: '2022-03-02T15:10:10+00:00',
-      name: 'randy',
-      __typename: 'check_in',
-      image_url:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxVfwvLnpVeA7Ypyr0ByTfPI9Dt4Q9pLyHeA&usqp=CAU',
-    },
-    {
-      comment: 'Long comment that may overspill over two lines ',
-      created_at: '2022-03-02T15:10:10+00:00',
-      id: 10,
-      image_url: 'https://miro.medium.com/max/1400/0*WdDLybS53W0L3WdG',
-      name: 'Vito',
-      __typename: 'check_in',
-    },
-  ];
+  const rows = [];
 
   if (gqlData) {
-    rows.push(gqlData);
+    gqlData.map((item) => {
+        rows.push(item);
+    });
   }
 
   const list = (anchor) => (

@@ -1,63 +1,40 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useMutation, gql } from '@apollo/client';
-
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { CREATE_LINK_MUTATION } from "./Quries_gql";
 import {
   Box,
   Divider,
   TextField,
   Typography,
   Button,
-  Dialog,
   DialogActions,
   DialogContent,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-
-
-const CREATE_LINK_MUTATION = gql`
-  mutation PostMutation(
-    $comment: String!
-    $created_at: timestamptz!
-    $image_url: String!
-    $name: String!
-  ) {
-    insert_check_in(objects:{comment: $comment, created_at: $created_at, image_url: $image_url, name: $name}) {
-      returning { 
-        id
-        comment
-        created_at
-        image_url
-        name
-      }
-    }
-  }
-`;
+} from "@mui/material";
+import { DialogBox, SubmitButton, StyledDialog } from "./components-styled";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function Popup({ value, setValue }) {
-  const { register, handleSubmit } = useForm();
-  
-  const [formState, setFormState] = useState({
-      comment: '',
-      created_at: '',
-      image_url: '',
-      name: ''
-  });
-  
+  const [inputs, setInputs] = useState({});
 
-  const onSubmission = (data) => {
-    const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
-    data.date = currentDate;
-    return data;  
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
   };
-  const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
-  const [createLink] =  useMutation(CREATE_LINK_MUTATION, {
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createLink();
+  };
+
+  const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
+  const [createLink] = useMutation(CREATE_LINK_MUTATION, {
     variables: {
-      comment: 'formState title',
+      comment: "test",
       created_at: currentDate,
-      image_url: 'formState image_url',
-      name: "test"
-    }
+      image_url: inputs.image_url,
+      name: inputs.name,
+    },
   });
 
   const handleClose = () => {
@@ -65,58 +42,38 @@ export default function Popup({ value, setValue }) {
   };
   return (
     <div>
-      <Dialog
-        sx={{
-          '& .MuiDialog-container': {
-            '& .MuiPaper-root': {
-              width: '100%',
-              maxWidth: '500px',
-            },
-          },
-        }}
-        open={value.isOpen}
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <form  onSubmit={(e) => {
-        e.preventDefault();
-        createLink();
-      }}>
+      <StyledDialog open={value.isOpen} onClose={handleClose}>
+        <form onSubmit={handleSubmit}>
           <DialogContent>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: '5px',
-              }}
-            >
+            <DialogBox>
               <Box>
-                <Typography fontWeight='500'>New CheckIn</Typography>
+                <Typography fontWeight="500">New CheckIn</Typography>
               </Box>
               <Box>
-                <CloseIcon cursor='pointer' onClick={handleClose} />
+                <CloseIcon cursor="pointer" onClick={handleClose} />
               </Box>
-            </Box>
+            </DialogBox>
 
             <Box mb={2}>
               <TextField
                 fullWidth
-                id='check-in-title'
-                label='Check In title'
-                variant='outlined'
-                name = 'comment'
-                {...register('title')}
+                id="check-in-title"
+                label="Check In title"
+                variant="outlined"
+                name="name"
+                value={inputs.name || ""}
+                onChange={handleChange}
               />
             </Box>
             <Box>
               <TextField
                 fullWidth
-                id='image-url'
-                label='Image URL'
-                variant='outlined'
-                name = 'image_url'
-                {...register('image-url')}
+                id="image_url"
+                label="Image URL"
+                variant="outlined"
+                name="image_url"
+                value={inputs.image_url || ""}
+                onChange={handleChange}
               />
             </Box>
           </DialogContent>
@@ -125,18 +82,12 @@ export default function Popup({ value, setValue }) {
             <Button onClick={handleClose} autoFocus>
               cancel
             </Button>
-            <Button
-              sx={{
-                background: '#000000',
-              }}
-              variant='contained'
-              type='submit'
-            >
+            <SubmitButton variant="contained" type="submit">
               Create CheckIn
-            </Button>
+            </SubmitButton>
           </DialogActions>
         </form>
-      </Dialog>
+      </StyledDialog>
     </div>
   );
 }

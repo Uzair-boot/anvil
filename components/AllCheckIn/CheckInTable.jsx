@@ -1,6 +1,8 @@
-import * as React from 'react';
-import { useQuery, gql } from '@apollo/client';
-import Moment from 'react-moment';
+import * as React from "react";
+import { useQuery } from "@apollo/client";
+import Moment from "react-moment";
+import CloseIcon from "@mui/icons-material/Close";
+import { GET_CHARACTERS } from "./Quries_gql";
 import {
   Table,
   TableBody,
@@ -12,30 +14,17 @@ import {
   Box,
   Drawer,
   Typography,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+} from "@mui/material";
 import {
   StyledCell,
   StyledTypography,
   StyledTableCell,
-} from './components.styled';
+} from "./components-styled";
 
-const GET_CHARACTERS = gql`
-  {
-    check_in (order_by: {id: desc}) {
-        comment
-        created_at
-        id
-        image_url
-        name
-      }
-      
-  }
-`;
 export default function CheckInTable() {
   const [state, setState] = React.useState({ right: false });
 
-  const [drawerData, setDrawerData] = React.useState({ name: '' });
+  const [drawerData, setDrawerData] = React.useState({ name: "" });
 
   const [gqlData, setGqlData] = React.useState({});
 
@@ -45,34 +34,33 @@ export default function CheckInTable() {
     setGqlData(data?.check_in);
   }, [data]);
 
- 
-
   if (error) {
-    return <Typography>Some error occured</Typography>;
+    return (
+      <Typography>Some error occured while fetching data from API</Typography>
+    );
   } else if (loading) {
     return <Typography>Loading....</Typography>;
   }
 
   const rows = [];
-
   if (gqlData) {
     gqlData.map((item) => {
-        rows.push(item);
+      rows.push(item);
     });
   }
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 400 }}
-      role='presentation'
+      sx={{ width: 400 }}
+      role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <CloseIcon onClick={toggleDrawer(anchor, false)} />
-      <Box textAlign='center'>
+      <Box textAlign="center">
         <StyledTypography>{drawerData.name}</StyledTypography>
         <img
           src={drawerData.image_url}
-          alt='Image from API'
+          alt="Image from API"
           width={200}
           height={200}
         />
@@ -87,8 +75,8 @@ export default function CheckInTable() {
     }
 
     if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
@@ -101,10 +89,10 @@ export default function CheckInTable() {
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
-              <StyledTableCell align='center'>Title</StyledTableCell>
-              <StyledTableCell align='center'>Owner</StyledTableCell>
-              <StyledTableCell align='center'>Status</StyledTableCell>
-              <StyledTableCell align='center'>Created at</StyledTableCell>
+              <StyledTableCell align="center">Title</StyledTableCell>
+              <StyledTableCell align="center">Owner</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
+              <StyledTableCell align="center">Created at</StyledTableCell>
             </TableRow>
           </TableHead>
 
@@ -112,22 +100,19 @@ export default function CheckInTable() {
             {rows &&
               rows.map((row, index) => (
                 <TableRow
-                  onClick={toggleDrawer('right', true, row)}
+                  onClick={toggleDrawer("right", true, row)}
                   key={index}
-                  sx={{
-                    '&:last-child td, &:last-child th': { border: 0 },
-                    cursor: 'pointer',
-                  }}
+                  sx={{ cursor: "pointer" }}
                 >
-                  <TableCell component='th' scope='row' align='center'>
+                  <TableCell component="th" scope="row" align="center">
                     {row.id}
                   </TableCell>
-                  <TableCell align='center'>{row.name}</TableCell>
-                  <TableCell align='center'>
+                  <TableCell align="center">{row.name}</TableCell>
+                  <TableCell align="center">
                     <StyledCell> {row.__typename}</StyledCell>
                   </TableCell>
-                  <TableCell align='center'>
-                    <Moment format='DD/MM/YYYY'>{row.created_at}</Moment>
+                  <TableCell align="center">
+                    <Moment format="DD/MM/YYYY">{row.created_at}</Moment>
                   </TableCell>
                 </TableRow>
               ))}
@@ -136,7 +121,7 @@ export default function CheckInTable() {
       </TableContainer>
 
       <div>
-        {['right'].map((item) => (
+        {["right"].map((item) => (
           <React.Fragment key={item}>
             <Drawer
               anchor={item}

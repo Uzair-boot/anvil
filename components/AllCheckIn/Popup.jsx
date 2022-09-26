@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { CREATE_LINK_MUTATION } from "./Quries_gql";
+import React, { useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { CREATE_LINK_MUTATION } from './Quries_gql'
 import {
   Box,
   Divider,
@@ -9,37 +9,37 @@ import {
   Button,
   DialogActions,
   DialogContent,
-} from "@mui/material";
-import { DialogBox, SubmitButton, StyledDialog } from "./components-styled";
-import CloseIcon from "@mui/icons-material/Close";
+} from '@mui/material'
+import { DialogBox, SubmitButton, StyledDialog } from './components-styled'
+import CloseIcon from '@mui/icons-material/Close'
 
 export default function Popup({ value, setValue }) {
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({})
 
   const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
+    const name = event.target.name
+    const value = event.target.value
+    setInputs((values) => ({ ...values, [name]: value }))
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    createLink();
-  };
+    event.preventDefault()
+    createLink()
+  }
 
-  const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
+  const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/')
   const [createLink] = useMutation(CREATE_LINK_MUTATION, {
     variables: {
-      comment: "test",
+      comment: 'test',
       created_at: currentDate,
       image_url: inputs.image_url,
       name: inputs.name,
     },
-  });
+  })
 
   const handleClose = () => {
-    setValue({ isOpen: false });
-  };
+    setValue({ isOpen: false })
+  }
   return (
     <div>
       <StyledDialog open={value.isOpen} onClose={handleClose}>
@@ -61,7 +61,7 @@ export default function Popup({ value, setValue }) {
                 label="Check In title"
                 variant="outlined"
                 name="name"
-                value={inputs.name || ""}
+                value={inputs.name || ''}
                 onChange={handleChange}
               />
             </Box>
@@ -72,7 +72,7 @@ export default function Popup({ value, setValue }) {
                 label="Image URL"
                 variant="outlined"
                 name="image_url"
-                value={inputs.image_url || ""}
+                value={inputs.image_url || ''}
                 onChange={handleChange}
               />
             </Box>
@@ -89,5 +89,5 @@ export default function Popup({ value, setValue }) {
         </form>
       </StyledDialog>
     </div>
-  );
+  )
 }

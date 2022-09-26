@@ -1,8 +1,8 @@
-import * as React from "react";
-import { useQuery } from "@apollo/client";
-import Moment from "react-moment";
-import CloseIcon from "@mui/icons-material/Close";
-import { GET_CHARACTERS } from "./Quries_gql";
+import * as React from 'react'
+import { useQuery } from '@apollo/client'
+import Moment from 'react-moment'
+import CloseIcon from '@mui/icons-material/Close'
+import { GET_CHARACTERS } from './Quries_gql'
 import {
   Table,
   TableBody,
@@ -14,39 +14,39 @@ import {
   Box,
   Drawer,
   Typography,
-} from "@mui/material";
+} from '@mui/material'
 import {
   StyledCell,
   StyledTypography,
   StyledTableCell,
-} from "./components-styled";
+} from './components-styled'
 
 export default function CheckInTable() {
-  const [state, setState] = React.useState({ right: false });
+  const [state, setState] = React.useState({ right: false })
 
-  const [drawerData, setDrawerData] = React.useState({ name: "" });
+  const [drawerData, setDrawerData] = React.useState({ name: '' })
 
-  const [gqlData, setGqlData] = React.useState({});
+  const [gqlData, setGqlData] = React.useState({})
 
-  const { data, loading, error } = useQuery(GET_CHARACTERS);
+  const { data, loading, error } = useQuery(GET_CHARACTERS)
 
   React.useEffect(() => {
-    setGqlData(data?.check_in);
-  }, [data]);
+    setGqlData(data?.check_in)
+  }, [data])
 
   if (error) {
     return (
       <Typography>Some error occured while fetching data from API</Typography>
-    );
+    )
   } else if (loading) {
-    return <Typography>Loading....</Typography>;
+    return <Typography>Loading....</Typography>
   }
 
-  const rows = [];
+  const rows = []
   if (gqlData) {
     gqlData.map((item) => {
-      rows.push(item);
-    });
+      rows.push(item)
+    })
   }
 
   const list = (anchor) => (
@@ -66,22 +66,22 @@ export default function CheckInTable() {
         />
       </Box>
     </Box>
-  );
+  )
   const toggleDrawer = (anchor, open, row) => (event) => {
     if (row != undefined) {
-      setDrawerData(row);
+      setDrawerData(row)
     } else {
-      setDrawerData({});
+      setDrawerData({})
     }
 
     if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
     ) {
-      return;
+      return
     }
-    setState({ ...state, [anchor]: open });
-  };
+    setState({ ...state, [anchor]: open })
+  }
 
   return (
     <>
@@ -100,9 +100,9 @@ export default function CheckInTable() {
             {rows &&
               rows.map((row, index) => (
                 <TableRow
-                  onClick={toggleDrawer("right", true, row)}
+                  onClick={toggleDrawer('right', true, row)}
                   key={index}
-                  sx={{ cursor: "pointer" }}
+                  sx={{ cursor: 'pointer' }}
                 >
                   <TableCell component="th" scope="row" align="center">
                     {row.id}
@@ -121,7 +121,7 @@ export default function CheckInTable() {
       </TableContainer>
 
       <div>
-        {["right"].map((item) => (
+        {['right'].map((item) => (
           <React.Fragment key={item}>
             <Drawer
               anchor={item}
@@ -134,5 +134,5 @@ export default function CheckInTable() {
         ))}
       </div>
     </>
-  );
+  )
 }

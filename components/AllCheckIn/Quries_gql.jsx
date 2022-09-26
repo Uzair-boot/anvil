@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const CREATE_LINK_MUTATION = gql`
   mutation PostMutation(
@@ -24,7 +24,7 @@ export const CREATE_LINK_MUTATION = gql`
       }
     }
   }
-`;
+`
 
 export const GET_CHARACTERS = gql`
   {
@@ -36,4 +36,4 @@ export const GET_CHARACTERS = gql`
       name
     }
   }
-`;
+`

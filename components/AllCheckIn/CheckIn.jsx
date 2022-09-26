@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react'
 import {
   Box,
   Container,
@@ -6,18 +6,18 @@ import {
   Grid,
   Toolbar,
   Typography,
-} from "@mui/material";
-import CheckInTable from "./CheckInTable";
+} from '@mui/material'
+import CheckInTable from './CheckInTable'
 import {
   StyledGrid,
   ButtonGrid,
   StyledButton,
   StyledTypography,
-} from "./components-styled";
-import Popup from "./Popup";
+} from './components-styled'
+import Popup from './Popup'
 
 export default function CheckIn() {
-  const [value, setValue] = React.useState({ isOpen: false, id: "" });
+  const [value, setValue] = React.useState({ isOpen: false, id: '' })
   return (
     <>
       <Container>
@@ -34,7 +34,7 @@ export default function CheckIn() {
             <Box>
               <StyledButton
                 onClick={() => {
-                  setValue({ isOpen: true });
+                  setValue({ isOpen: true })
                 }}
               >
                 Add Check In
@@ -50,5 +50,5 @@ export default function CheckIn() {
 
       <CheckInTable />
     </>
-  );
+  )
 }
